@@ -10,7 +10,7 @@ char* getPlatformInfo(cl_platform_id, cl_platform_info);
 
 void main(void)
 {
-    cl_int error = 0;   // Used to handle error codes
+    cl_int error = 0;   // Used to handle error codes.
     cl_uint entryCount = 1;
     cl_uint platformCount;
     cl_platform_id platform;
@@ -20,20 +20,19 @@ void main(void)
     char *vendor;
     char *extensions;
 	
-	//Display console
-		
+    //Display console		
     hStdOutput = GetStdHandle(STD_OUTPUT_HANDLE);
     if (!GetConsoleScreenBufferInfo(hStdOutput, &csbi))
     {
-		printf("GetConsoleScreenBufferInfo failed: %d\n", GetLastError());
-		exit(-1);
+        printf("GetConsoleScreenBufferInfo failed: %d\n", GetLastError());
+        exit(-1);
     }
 
-	// Platform
+    //Platform
     error = clGetPlatformIDs(entryCount, &platform, &platformCount);
     if (error != CL_SUCCESS) {
 	    printf("Error getting platform id");
-	    exit(error);
+        exit(error);
     }
 
     profile = getPlatformInfo(platform, CL_PLATFORM_PROFILE);

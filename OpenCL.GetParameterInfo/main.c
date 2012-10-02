@@ -22,7 +22,7 @@ void main(void)
 	
 	//Display console
 		
-	hStdOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+    hStdOutput = GetStdHandle(STD_OUTPUT_HANDLE);
     if (!GetConsoleScreenBufferInfo(hStdOutput, &csbi))
     {
 		printf("GetConsoleScreenBufferInfo failed: %d\n", GetLastError());
@@ -30,30 +30,30 @@ void main(void)
     }
 
 	// Platform
-	error = clGetPlatformIDs(entryCount, &platform, &platformCount);
-	if (error != CL_SUCCESS) {
-		printf("Error getting platform id");
-		exit(error);
-	}
+    error = clGetPlatformIDs(entryCount, &platform, &platformCount);
+    if (error != CL_SUCCESS) {
+	    printf("Error getting platform id");
+	    exit(error);
+    }
 
-	profile = getPlatformInfo(platform, CL_PLATFORM_PROFILE);
-	version = getPlatformInfo(platform, CL_PLATFORM_VERSION);
-	name = getPlatformInfo(platform, CL_PLATFORM_NAME);
-	vendor = getPlatformInfo(platform, CL_PLATFORM_VENDOR);
-	extensions = getPlatformInfo(platform, CL_PLATFORM_EXTENSIONS);
+    profile = getPlatformInfo(platform, CL_PLATFORM_PROFILE);
+    version = getPlatformInfo(platform, CL_PLATFORM_VERSION);
+    name = getPlatformInfo(platform, CL_PLATFORM_NAME);
+    vendor = getPlatformInfo(platform, CL_PLATFORM_VENDOR);
+    extensions = getPlatformInfo(platform, CL_PLATFORM_EXTENSIONS);
 
-	printf("\nPlatform ID: %i ", platform);
-	printf("\nPlatform profile: %s ", profile);
-	printf("\nPlatform version: %s ", version);
-	printf("\nPlatform name: %s ", name);
-	printf("\nPlatform vendor: %s ", vendor);
-	printf("\nPlatform extensions: %s ", extensions);
+    printf("\nPlatform ID: %i ", platform);
+    printf("\nPlatform profile: %s ", profile);
+    printf("\nPlatform version: %s ", version);
+    printf("\nPlatform name: %s ", name);
+    printf("\nPlatform vendor: %s ", vendor);
+    printf("\nPlatform extensions: %s ", extensions);
 
-	free(profile);
-	free(version);
-	free(name);
-	free(vendor);
-	free(extensions);
+    free(profile);
+    free(version);
+    free(name);
+    free(vendor);
+    free(extensions);
 
     printf("\n\n\n\n\tPress any key to exit...\n");
     getch();

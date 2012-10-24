@@ -13,12 +13,13 @@ void main(void)
     cl_int error = 0;   // Used to handle error codes.
     cl_uint entryCount = 1;
     cl_uint platformCount;
-    cl_platform_id platform;
+    cl_platform_id* platforms;
     char *profile;
     char *version;
     char *name;
     char *vendor;
     char *extensions;
+    int index;
 	
     //Display console		
     hStdOutput = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -28,33 +29,51 @@ void main(void)
         exit(-1);
     }
 
+    //Platform count
+    error = clGetPlatformIDs(0, NULL, &platformCount);
+    if (error != CL_SUCCESS) {
+        printf("Error getting platform count");
+        exit(error);
+    }
+
+    platforms = (cl_platform_id*)calloc(platformCount, sizeof(cl_platform_id));
+
     //Platform
-    error = clGetPlatformIDs(entryCount, &platform, &platformCount);
+    error = clGetPlatformIDs(platformCount, platforms, NULL);
     if (error != CL_SUCCESS) {
 	    printf("Error getting platform id");
         exit(error);
     }
 
-    profile = getPlatformInfo(platform, CL_PLATFORM_PROFILE);
-    version = getPlatformInfo(platform, CL_PLATFORM_VERSION);
-    name = getPlatformInfo(platform, CL_PLATFORM_NAME);
-    vendor = getPlatformInfo(platform, CL_PLATFORM_VENDOR);
-    extensions = getPlatformInfo(platform, CL_PLATFORM_EXTENSIONS);
+    printf("\nPlatform count: %i", platformCount);
+    printf("\n");
 
-    printf("\nPlatform ID: %i ", platform);
-    printf("\nPlatform profile: %s ", profile);
-    printf("\nPlatform version: %s ", version);
-    printf("\nPlatform name: %s ", name);
-    printf("\nPlatform vendor: %s ", vendor);
-    printf("\nPlatform extensions: %s ", extensions);
+    for (index = 0; index < platformCount; index++) {
 
-    free(profile);
-    free(version);
-    free(name);
-    free(vendor);
-    free(extensions);
+        profile = getPlatformInfo(platforms[index], CL_PLATFORM_PROFILE);
+        version = getPlatformInfo(platforms[index], CL_PLATFORM_VERSION);
+        name = getPlatformInfo(platforms[index], CL_PLATFORM_NAME);
+        vendor = getPlatformInfo(platforms[index], CL_PLATFORM_VENDOR);
+        extensions = getPlatformInfo(platforms[index], CL_PLATFORM_EXTENSIONS);
 
-    printf("\n\n\n\n\tPress any key to exit...\n");
+        printf("\nPlatform profile: %s ", profile);
+        printf("\nPlatform version: %s ", version);
+        printf("\nPlatform name: %s ", name);
+        printf("\nPlatform vendor: %s ", vendor);
+        printf("\nPlatform extensions: %s ", extensions);
+        printf("\n");
+    
+        free(profile);
+        free(version);
+        free(name);
+        free(vendor);
+        free(extensions);
+
+    }
+
+    free(platforms);
+
+    printf("\n\n\tPress any key to exit...\n");
     getch();
 }
 

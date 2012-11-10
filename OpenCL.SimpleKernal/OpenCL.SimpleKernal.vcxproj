@@ -22,7 +22,11 @@
     <Intel_OpenCL_Build_Rules Include="simple.cl" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="benchmarker.c" />
     <ClCompile Include="main.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="benchmarker.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CA9D8937-480F-4EFC-82B0-8034EAAA4036}</ProjectGuid>

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <conio.h>
 #include "CL/cl.h"
+#include "benchmarker.h"
 
 struct vector4
 {
@@ -37,6 +38,8 @@ void main(void)
     size_t local_ws = 512;
     size_t global_ws = 500000;
     cl_int error = 0;
+    struct Benchmarker* benchmarker;
+    double totalTime;
 
 	//Display console
     hStdOutput = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -76,6 +79,9 @@ void main(void)
         exit(-1);
     }
 
+    benchmarker = create_benchmarker();
+    start_benchmarker(benchmarker);
+
     //Execute the simple kernal on the buffered data.
     error = executeKernal(program, queue, bufferA, bufferB, bufferResults, size);
     if (error != CL_SUCCESS) {
@@ -86,6 +92,8 @@ void main(void)
     //Get the kernal results.
     clEnqueueReadBuffer(queue, bufferResults, CL_TRUE, 0, sizeof(float)*size, results, 0, NULL, NULL);
 
+    totalTime = stop_benchmarker(benchmarker);
+
     for (i = 0; i < size; i+=1000)
     {
         printf("[%i] %f\n", i, results[i]);
@@ -93,6 +101,8 @@ void main(void)
 
     printf("\n\n\n\tPress any key to exit...\n");
     getch();
+
+    free(benchmarker);
 }
 
 cl_program compileProgram(cl_context context, cl_device_id device)
